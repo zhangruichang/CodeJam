@@ -1,0 +1,21 @@
+# depslib dependency file v1.0
+1424699781 source:d:\mycbworkspace\apac2014proa\main.cpp
+	<set>
+	<map>
+	<list>
+	<cmath>
+	<queue>
+	<stack>
+	<ctime>
+	<cstdio>
+	<string>
+	<vector>
+	<climits>
+	<cstdlib>
+	<cstring>
+	<fstream>
+	<iostream>
+	<algorithm>
+	<unordered_set>
+	<unordered_map>
+
