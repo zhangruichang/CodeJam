@@ -29,8 +29,7 @@ typedef pair<int, int> pii;
 #define f first
 #define s second
 int getint(){
-	int t = 0, flag = 1;
-	char c = getchar();
+	int t = 0, flag = 1; char c = getchar();
 	while (c<'0' || c>'9' || c == '-')
 	{
 		if (c == '-')
@@ -63,24 +62,78 @@ int MinEdit()
     return dp[m][n];
 }
 
+int chcnt[100][100];
+int n, l;
+string str[100];
+int ch[100];
+int MulEdit()
+{
+
+    int repcnt=0, chi=0, chcnti=0;
+    for(int j=0;j<str[0].size();j++)
+    {
+        if(j && str[0][j]==str[0][j-1]) repcnt++;
+        else
+        {
+            if(!j) repcnt++;
+            else chcnt[chcnti++][0]=repcnt, repcnt=1;
+            ch[chi++]=str[0][j]-'a';
+        }
+    }
+    chcnt[chcnti++][0]=repcnt;
+    l=chcnti;
+
+
+
+    for(int i=1;i<n;i++)
+    {
+        repcnt=0;chcnti=0;chi=0;
+        for(int j=0;j<str[i].size();j++)
+        {
+            if(j && str[i][j]==str[i][j-1]) repcnt++;
+            else
+            {
+                if(!j) repcnt++;
+                else chcnt[chcnti++][i]=repcnt, repcnt=1;
+                if(chi<l && ch[chi++]==str[i][j]-'a');
+                else
+                {
+                    return -1;
+                }
+            }
+        }
+        chcnt[chcnti++][i]=repcnt;
+        if(chcnti!=l) return -1;
+    }
+
+    int transcnt=0;
+    for(int i=0;i<l;i++)
+    {
+        sort(chcnt[i], chcnt[i]+n);
+        int median=chcnt[i][n/2];
+        for(int j=0;j<n;j++) transcnt+=abs(median-chcnt[i][j]);
+    }
+    return transcnt;
+}
+
 int main()
 {
 
 #ifndef ONLINE_JUDGE
-    freopen ("A-small-practice.in" , "r" , stdin);
-    freopen ("A-small-practice.out" , "w" , stdout);
+    freopen ("A-large-practice.in" , "r" , stdin);
+    freopen ("A-large-practice.out" , "w" , stdout);
 #endif
 
-    int t, n;
+    int t;
 
     cin>>t;
     for(int ti=1;ti<=t;ti++)
     {
         cin>>n;
-        cin>>x>>y;
+        for(int i=0;i<n;i++) cin>>str[i];
         printf("Case #%d: ", ti);
-        int ans=MinEdit();
-        if(ans!=inf) cout<<ans<<endl;
+        int ans=MulEdit();
+        if(ans!=-1) cout<<ans<<endl;
         else cout<<"Fegla Won"<<endl;
     }
 	return 0;
