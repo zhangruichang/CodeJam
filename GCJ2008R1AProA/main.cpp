@@ -48,50 +48,23 @@ int GCD(int m, int n)
     if(!m) return n;
     return GCD(n%m, m);//yushu and chushu
 }
-int Index(char c)
-{
-    return ((c<='9' && c>='0') ? (c-'0') : (c-'a'+10));
-}
+int a[maxn], b[maxn], n;
 int main()
 {
 
 #ifndef ONLINE_JUDGE
-    freopen ("A-small-practice.in" , "r" , stdin);
-    freopen ("A-small-practice.out" , "w" , stdout);
+    freopen ("A-large-practice.in" , "r" , stdin);
+    freopen ("A-large-practice.out" , "w" , stdout);
 #endif
 
-    int t;string str;
+    int t;
     cin>>t;
-    unordered_map<char, int> mp;
     for(int ti=1;ti<=t;ti++)
     {
-        mp.clear();
-        cin>>str;int n=str.size();
-        vector<int> num;
-        int dig=0;
-        for(int i=0;i<n;i++)
-        {
-            if(!i) num.push_back(1), mp[str[i]]=1;
-            else if(mp.find(str[i])==mp.end())
-            {
-                num.push_back(dig);
-                mp[str[i]]=dig++;
-                if(dig==1) dig=2;
-            }
-            else
-            {
-                num.push_back(mp[str[i]]);
-            }
-        }
-        if(mp.size()==1) dig=2;
-        //for(auto e: num) cout<<e<<" ";
-        reverse(num.begin(), num.end());LL wei=1, sum=0;
-        for(int i=0;i<num.size();i++)
-        {
-            sum+=num[i]*wei;wei*=dig;
-            //cout<<sum<<endl;
-        }
-        printf("Case #%d: %I64d\n", ti, sum);
+        cin>>n;for(int i=0;i<n;i++) cin>>a[i];for(int i=0;i<n;i++) cin>>b[i];
+        sort(a, a+n);sort(b, b+n, greater<int>());LL sum=0;
+        for(int i=0;i<n;i++) sum+=(LL)a[i]*(LL)b[i];
+        printf("Case #%d: %lld\n", ti, sum);
     }
 	return 0;
 }

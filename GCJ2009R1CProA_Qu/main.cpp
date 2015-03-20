@@ -48,50 +48,43 @@ int GCD(int m, int n)
     if(!m) return n;
     return GCD(n%m, m);//yushu and chushu
 }
-int Index(char c)
+char s[maxn], n;
+LL solve(char *s)
 {
-    return ((c<='9' && c>='0') ? (c-'0') : (c-'a'+10));
+	map<char,LL> t;
+	const LL table[] = {1,0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23
+		,24,25,26,27,28,29,30,31,32,33,34,35,36,37};
+	LL index = 0;
+	char * base = s;
+	while(*s) {
+		if(!t[*s]) t[*s] = table[index++] + 1;
+		s ++ ;
+	}
+	if(index==1) index++;
+	s --;
+	LL ans = 0;
+	LL d = 1;
+	while(s >= base) {
+		ans += (t[*s]-1)*d;
+		d *= index;
+		s--;
+	}
+	return ans;
 }
 int main()
 {
 
 #ifndef ONLINE_JUDGE
-    freopen ("A-small-practice.in" , "r" , stdin);
-    freopen ("A-small-practice.out" , "w" , stdout);
+    freopen ("A-large-practice.in" , "r" , stdin);
+    freopen ("A-large-practice.out" , "w" , stdout);
 #endif
 
-    int t;string str;
+    int t;
     cin>>t;
-    unordered_map<char, int> mp;
     for(int ti=1;ti<=t;ti++)
     {
-        mp.clear();
-        cin>>str;int n=str.size();
-        vector<int> num;
-        int dig=0;
-        for(int i=0;i<n;i++)
-        {
-            if(!i) num.push_back(1), mp[str[i]]=1;
-            else if(mp.find(str[i])==mp.end())
-            {
-                num.push_back(dig);
-                mp[str[i]]=dig++;
-                if(dig==1) dig=2;
-            }
-            else
-            {
-                num.push_back(mp[str[i]]);
-            }
-        }
-        if(mp.size()==1) dig=2;
-        //for(auto e: num) cout<<e<<" ";
-        reverse(num.begin(), num.end());LL wei=1, sum=0;
-        for(int i=0;i<num.size();i++)
-        {
-            sum+=num[i]*wei;wei*=dig;
-            //cout<<sum<<endl;
-        }
-        printf("Case #%d: %I64d\n", ti, sum);
+        scanf("%s", s);
+        printf("Case #%d: %lld\n", ti, solve(s));
     }
 	return 0;
 }

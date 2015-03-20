@@ -48,50 +48,28 @@ int GCD(int m, int n)
     if(!m) return n;
     return GCD(n%m, m);//yushu and chushu
 }
-int Index(char c)
-{
-    return ((c<='9' && c>='0') ? (c-'0') : (c-'a'+10));
-}
+int a[maxn], n;
 int main()
 {
 
 #ifndef ONLINE_JUDGE
-    freopen ("A-small-practice.in" , "r" , stdin);
-    freopen ("A-small-practice.out" , "w" , stdout);
+    freopen ("A-large-practice.in" , "r" , stdin);
+    freopen ("A-large-practice.out" , "w" , stdout);
 #endif
 
-    int t;string str;
-    cin>>t;
-    unordered_map<char, int> mp;
+    int t, n, sum;
+    cin>>t;unordered_map<int, int> mp;
     for(int ti=1;ti<=t;ti++)
     {
         mp.clear();
-        cin>>str;int n=str.size();
-        vector<int> num;
-        int dig=0;
+        cin>>sum>>n;
+        for(int i=0;i<n;i++) cin>>a[i], mp[a[i]]=i;int ii, jj;
         for(int i=0;i<n;i++)
         {
-            if(!i) num.push_back(1), mp[str[i]]=1;
-            else if(mp.find(str[i])==mp.end())
-            {
-                num.push_back(dig);
-                mp[str[i]]=dig++;
-                if(dig==1) dig=2;
-            }
-            else
-            {
-                num.push_back(mp[str[i]]);
-            }
+            auto it=mp.find(sum-a[i]);
+            if(it!=mp.end() && it->second!=i) {ii=min(i, it->second), jj=max(i, it->second);break;}
         }
-        if(mp.size()==1) dig=2;
-        //for(auto e: num) cout<<e<<" ";
-        reverse(num.begin(), num.end());LL wei=1, sum=0;
-        for(int i=0;i<num.size();i++)
-        {
-            sum+=num[i]*wei;wei*=dig;
-            //cout<<sum<<endl;
-        }
-        printf("Case #%d: %I64d\n", ti, sum);
+        printf("Case #%d: %d %d\n", ti, ii+1, jj+1);
     }
 	return 0;
 }

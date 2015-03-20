@@ -48,50 +48,44 @@ int GCD(int m, int n)
     if(!m) return n;
     return GCD(n%m, m);//yushu and chushu
 }
-int Index(char c)
-{
-    return ((c<='9' && c>='0') ? (c-'0') : (c-'a'+10));
-}
+int a[maxn], n;
+string str[maxn];
 int main()
 {
 
 #ifndef ONLINE_JUDGE
-    freopen ("A-small-practice.in" , "r" , stdin);
-    freopen ("A-small-practice.out" , "w" , stdout);
+    freopen ("A-large-practice.in" , "r" , stdin);
+    freopen ("A-large-practice.out" , "w" , stdout);
 #endif
 
-    int t;string str;
-    cin>>t;
-    unordered_map<char, int> mp;
+    int l, n, t;string pat;
+    cin>>l>>n>>t;
+    for(int i=0;i<n;i++) cin>>str[i];
     for(int ti=1;ti<=t;ti++)
     {
-        mp.clear();
-        cin>>str;int n=str.size();
-        vector<int> num;
-        int dig=0;
-        for(int i=0;i<n;i++)
+        unordered_set<char> mp[500];
+        cin>>pat;int mpi=0;bool inpar=0;
+        for(int i=0;i<pat.size();i++)
         {
-            if(!i) num.push_back(1), mp[str[i]]=1;
-            else if(mp.find(str[i])==mp.end())
-            {
-                num.push_back(dig);
-                mp[str[i]]=dig++;
-                if(dig==1) dig=2;
-            }
+            if(pat[i]=='(') inpar=1;
+            else if(pat[i]==')') inpar=0, mpi++;
             else
             {
-                num.push_back(mp[str[i]]);
+                mp[mpi].insert(pat[i]);
+                if(!inpar) mpi++;
             }
         }
-        if(mp.size()==1) dig=2;
-        //for(auto e: num) cout<<e<<" ";
-        reverse(num.begin(), num.end());LL wei=1, sum=0;
-        for(int i=0;i<num.size();i++)
+        int cnt=0;
+        for(int i=0;i<n;i++)
         {
-            sum+=num[i]*wei;wei*=dig;
-            //cout<<sum<<endl;
+            int j;
+            for(j=0;j<l;j++)
+            {
+                if(mp[j].find(str[i][j])==mp[j].end()) break;
+            }
+            if(j==l) cnt++;
         }
-        printf("Case #%d: %I64d\n", ti, sum);
+        printf("Case #%d: %d\n", ti, cnt);
     }
 	return 0;
 }
