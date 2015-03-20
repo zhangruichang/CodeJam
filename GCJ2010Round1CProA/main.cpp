@@ -50,16 +50,21 @@ int GCD(int m, int n)
 }
 int a[maxn], n;
 pair<int, int> v[maxn];
+bool check(pair<int, int>& p1,pair<int, int>& p2 )
+{
+    if(p1.fi>p2.fi && p1.se<p2.se ||p1.fi<p2.fi && p1.se>p2.se) return 1;
+    return 0;
+}
 int main()
 {
 
 #ifndef ONLINE_JUDGE
-    //freopen ("A-small-practice.in" , "r" , stdin);
-    //freopen ("A-small-practice.out" , "w" , stdout);
+    freopen ("A-large-practice.in" , "r" , stdin);
+    freopen ("A-large-practice.out" , "w" , stdout);
 #endif
 
-    int t, x, y;string str;
-    cin>>t;cin>>str;
+    int t, x, y;//string str;
+    cin>>t;//cin>>str;
     for(int ti=1;ti<=t;ti++)
     {
         cin>>n;
@@ -67,7 +72,8 @@ int main()
         int cnt=0;
         for(int i=0;i<n;i++) for(int j=i+1;j<n;j++)
         {
-            if(!((v[i].fi * v[j].se) == (v[j].fi * v[i].se))) cnt++;
+            if(check(v[i], v[j])) cnt++;
+            //if(!((v[i].fi * v[j].se) == (v[j].fi * v[i].se))) cnt++;
         }
         printf("Case #%d: %d\n", ti, cnt);
     }
