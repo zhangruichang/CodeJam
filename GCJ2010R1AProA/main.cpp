@@ -50,15 +50,20 @@ int GCD(int m, int n)
 }
 int a[maxn], n;
 string str[maxn];
+const int dx[8]={0, 0, -1, 1, -1, 1, -1, 1}, dy[8]={-1, 1, 0 ,0, -1, 1, 1, -1};
+bool inrange(int i, int j)
+{
+    return i<n && i>=0 && j<n && j>=0;
+}
 int main()
 {
-/*
+
 #ifndef ONLINE_JUDGE
-    freopen ("in.txt" , "r" , stdin);
-    freopen ("out.txt" , "w" , stdout);
+    freopen ("A-large-practice.in" , "r" , stdin);
+    freopen ("A-large-practice.out" , "w" , stdout);
 #endif
-*/
-    int t, n, K;
+
+    int t, K;
     cin>>t;
     for(int ti=1;ti<=t;ti++)
     {
@@ -68,6 +73,7 @@ int main()
         {
             for(int i=0;i<n;i++)
             {
+                if(str[i][j]=='.') continue;
                 int k=j+1;
                 while(k<n && str[i][k]=='.') k++;
                 if(k==j+1) continue;
@@ -75,80 +81,30 @@ int main()
                 str[i][j]='.';
             }
         }
-        for(int i=0;i<n;i++) cout<<str[i]<<endl;
-
+        //cout<<endl;
+        //for(int i=0;i<n;i++) cout<<str[i]<<endl;
         bool r=0, b=0;
-        int rcnt, bcnt;
-        for(int i=0;i<n;i++)
+        for(int i=0;i<n;i++) for(int j=0;j<n;j++)
         {
-            rcnt=0, bcnt=0;
-            for(int j=0;j<n;j++)
+            char cur=str[i][j];
+            if(cur=='.') continue;
+            int rowc=1, colc=1, first=1, second=1;
+            for(int k=0;k<8;k++)
             {
-                if(str[i][j]=='R') rcnt++;
-                else if(str[i][j]=='B') bcnt++;
+                int ii=i, jj=j;
+                int cnt=0;
+                while(inrange(ii+dx[k], jj+dy[k]) && str[ii+dx[k]][jj+dy[k]]==cur) ii+=dx[k], jj+=dy[k], cnt++;
+                if(k<2) rowc+=cnt;
+                else if(k<4) colc+=cnt;
+                else if(k<6) first+=cnt;
+                else second+=cnt;
             }
-            if(rcnt==K) r=1;
-            if(bcnt==K) b=1;
-        }
-        for(int j=0;j<n;j++)
-        {
-            rcnt=0, bcnt=0;
-            for(int i=0;i<n;i++)
+            if(rowc>=K || colc>=K ||first>=K || second>=K)
             {
-                if(str[i][j]=='R') rcnt++;
-                else if(str[i][j]=='B') bcnt++;
+                //cout<<i<<" "<<j<<" "<<rowc<<" "<<colc<<" "<<first<<" "<<second<<endl;
+                if(cur=='R') r=1;
+                else if(cur=='B') b=1;
             }
-            if(rcnt==K) r=1;
-            if(bcnt==K) b=1;
-        }
-
-
-        for(int i=n-1;i>=0;i--)
-        {
-            rcnt=0, bcnt=0;
-            for(int j=0, k=i;j<n && k<n;j++, k++)
-            {
-                if(str[k][j]=='R') rcnt++;
-                else if(str[k][j]=='B') bcnt++;
-            }
-            if(rcnt==K) r=1;
-            if(bcnt==K) b=1;
-        }
-        for(int j=1;j<n;j++)
-        {
-            rcnt=0, bcnt=0;
-            for(int i=0, k=j;k<n && i<n;i++, k++)
-            {
-                if(str[i][k]=='R') rcnt++;
-                else if(str[i][k]=='B') bcnt++;
-            }
-            if(rcnt==K) r=1;
-            if(bcnt==K) b=1;
-        }
-
-
-
-        for(int i=0;i<n;i++)
-        {
-            rcnt=0, bcnt=0;
-            for(int j=0, k=i;j<n && k>=0;j++, k--)
-            {
-                if(str[k][j]=='R') rcnt++;
-                else if(str[k][j]=='B') bcnt++;
-            }
-            if(rcnt==K) r=1;
-            if(bcnt==K) b=1;
-        }
-        for(int j=1;j<n;j++)
-        {
-            rcnt=0, bcnt=0;
-            for(int i=n-1, k=j;k<n && i>=0;i--, k++)
-            {
-                if(str[i][k]=='R') rcnt++;
-                else if(str[i][k]=='B') bcnt++;
-            }
-            if(rcnt==K) r=1;
-            if(bcnt==K) b=1;
         }
         printf("Case #%d: ", ti);
         if(r && b) cout<<"Both"<<endl;
