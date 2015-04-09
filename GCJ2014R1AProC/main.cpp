@@ -87,7 +87,7 @@ int main()
     srand(time(NULL));
     int n=1000;
 
-    int times=10000;
+    int times=1000;
     ofstream g("gcnt.txt"), b("bcnt.txt");
     memset(gcnt, 0, sizeof(gcnt));
     for(int i=0;i<times;i++)
