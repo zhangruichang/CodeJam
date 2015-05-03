@@ -31,6 +31,7 @@ typedef unsigned long long ULL;
 //unsigned long long 0~2^64-1  0~1.8*10^19
 typedef pair<int, int> pii;
 typedef vector<int> vi;
+#define inf 0x3f3f3f3f3f3f3f3f
 #define fi first
 #define se second
 #define iOS  ios_base::sync_with_stdio(false)
@@ -79,67 +80,39 @@ LL MultMod(LL a,LL b,LL MOD)
     return ret;
 }
 LL a[maxn], n, t, m;
-
-int getnum(LL n)
-{
-    int cnt=0;
-    while(n) cnt++, n/=10;
-    return cnt;
-}
 LL reversenum(LL n)
 {
     LL ans=0;
-    while(n) ans=ans*10+(n%10), n/=10;
+    while(n) ans=ans*10+n%10, n/=10;
     return ans;
 }
-int highbit(LL n)
-{
-    int cnt=getnum(n);
-    return n/(LL)pow(10, cnt-1);
-}
+
 int main()
 {
-/*
+
 #ifndef ONLINE_JUDGE
-    freopen ("A-small-attempt2.in" , "r" , stdin);
-    freopen ("A-small-attempt2.out" , "w" , stdout);
+    freopen ("A-small-practice.in" , "r" , stdin);
+    freopen ("A-small-practice.out" , "w" , stdout);
 #endif
-*/
+
+    iOS;
+    for(int i=1;i<=1000000;i++)
+        a[i]=inf;
+    a[1]=1;
+    for(int i=2;i<=1000000;i++)
+    {
+        a[i]=a[i-1]+1;
+        if(reversenum(reversenum(i))==i)
+            a[i]=min(a[i], a[reversenum(i)]+1);
+        //a[i]=min(a[i-1], a[reversenum(i)])+1;
+    }
+
+
     cin>>t;
     for(int ti=1;ti<=t;ti++)
     {
-        cin>>n;if(n<=10) {printf("Case #%d: %lld\n", ti, n);continue;}
-        LL ans=1;
-        for(LL i=1;i<n;)
-        {
-            //cout<<getnum(i)<<" "<<getnum(n)<<endl;
-            if(getnum(i)<getnum(n))
-            {
-                ans+=(i/10*10+9-i);
-                i=i/10*10+9;
-                if(i>=10 && i< reversenum(i))
-                    i=reversenum(i),
-                    ans++;
-                else i++, ans++;
-                //cout<<"prev i:"<<i<<endl;
-                //ans++;
-                //cout<<"i: "<<i<<endl;
-            }
-            else{
-                LL previ=i;
-                //ans+=(highbit(n)-i%10);
-                //cout<<ans<<" ";
-                i+=highbit(n)-i%10;
-                //cout<<i<<" ";
-                if(i<reversenum(i) && reversenum(i)<=n) ans+=(highbit(n)-previ%10)+1, i=reversenum(i) ;
-                else if(i<reversenum(i-1) && reversenum(i-1)<=n) i=reversenum(i-1),
-                    ans+=(highbit(n)-previ%10);
-                else ans+=n-previ, i=n;
-            }
-            cout<<i<<" "<<ans<<endl;
-        }
-        printf("Case #%d: %lld\n", ti, ans);
-
+        cin>>n;
+        printf("Case #%d: %d\n", ti, a[n]);
     }
 	return 0;
 }

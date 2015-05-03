@@ -97,49 +97,37 @@ int highbit(LL n)
     int cnt=getnum(n);
     return n/(LL)pow(10, cnt-1);
 }
+
+
 int main()
 {
-/*
+
 #ifndef ONLINE_JUDGE
-    freopen ("A-small-attempt2.in" , "r" , stdin);
-    freopen ("A-small-attempt2.out" , "w" , stdout);
+    freopen ("E:\\CodeJam\\GCJ2015R1BProA\\A-small-attempt3.in" , "r" , stdin);
+    freopen ("E:\\CodeJam\\GCJ2015R1BProA\\A-small-attempt3.out" , "w" , stdout);
 #endif
-*/
+
     cin>>t;
     for(int ti=1;ti<=t;ti++)
     {
-        cin>>n;if(n<=10) {printf("Case #%d: %lld\n", ti, n);continue;}
-        LL ans=1;
-        for(LL i=1;i<n;)
+        cin>>n;
+        queue<int> q;
+        q.push(1);LL l=1;
+        while(!q.empty())
         {
-            //cout<<getnum(i)<<" "<<getnum(n)<<endl;
-            if(getnum(i)<getnum(n))
+            int qsize=q.size();
+            for(int qi=1;qi<=qsize;qi++)
             {
-                ans+=(i/10*10+9-i);
-                i=i/10*10+9;
-                if(i>=10 && i< reversenum(i))
-                    i=reversenum(i),
-                    ans++;
-                else i++, ans++;
-                //cout<<"prev i:"<<i<<endl;
-                //ans++;
-                //cout<<"i: "<<i<<endl;
+                int cur=q.front();q.pop();
+                if(cur==n) goto L1;
+                if(cur<reversenum(cur) && reversenum(cur)<=n)
+                    q.push(reversenum(cur));
+                q.push(cur+1);
             }
-            else{
-                LL previ=i;
-                //ans+=(highbit(n)-i%10);
-                //cout<<ans<<" ";
-                i+=highbit(n)-i%10;
-                //cout<<i<<" ";
-                if(i<reversenum(i) && reversenum(i)<=n) ans+=(highbit(n)-previ%10)+1, i=reversenum(i) ;
-                else if(i<reversenum(i-1) && reversenum(i-1)<=n) i=reversenum(i-1),
-                    ans+=(highbit(n)-previ%10);
-                else ans+=n-previ, i=n;
-            }
-            cout<<i<<" "<<ans<<endl;
+            l++;
         }
-        printf("Case #%d: %lld\n", ti, ans);
-
+        L1:printf("Case #%d: %d\n", ti, l);
+        //cout
     }
 	return 0;
 }
